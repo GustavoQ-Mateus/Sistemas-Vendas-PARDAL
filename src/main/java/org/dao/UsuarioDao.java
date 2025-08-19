@@ -1,9 +1,9 @@
 package org.dao;
 
-import PRDLconexao.Conexao;
-import PRDLconexao.ConexaoMysql;
-import PRDLdominio.Perfil;
-import PRDLdominio.Usuario;
+import org.conexao.Conexao;
+import org.conexao.ConexaoMysql;
+import org.dominio.Perfil;
+import org.dominio.Usuario;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

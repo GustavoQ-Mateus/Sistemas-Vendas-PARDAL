@@ -1,7 +1,7 @@
 package org.gestao;
-import PRDLdao.UsuarioDao;
-import PRDLdominio.Perfil;
-import PRDLdominio.Usuario;
+import org.dao.UsuarioDao;
+import org.dominio.Perfil;
+import org.dominio.Usuario;
 
 public class UsuarioTest {
     public static void main(String[] args){
