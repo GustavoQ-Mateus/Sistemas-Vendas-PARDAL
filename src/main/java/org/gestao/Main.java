@@ -1,8 +1,8 @@
 package org.gestao;
 
-import PRDLconexao.Conexao;
-import PRDLconexao.ConexaoMysql;
-import PRDLdominio.Categoria;
+import org.conexao.Conexao;
+import org.conexao.ConexaoMysql;
+import org.dominio.Categoria;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

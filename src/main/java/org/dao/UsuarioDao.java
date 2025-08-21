@@ -4,6 +4,7 @@ import org.conexao.Conexao;
 import org.conexao.ConexaoMysql;
 import org.dominio.Perfil;
 import org.dominio.Usuario;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +42,7 @@ public class UsuarioDao {
     }
 
     private String editar(Usuario usuario) {
-        String sql = "UPDATE categoria SET nome = ?, usuario = ?, senha = ?, perfil = ? WHERE id = ?";
+        String sql = "UPDATE usuario SET nome = ?, usuario = ?, senha = ?, perfil = ?, estado = ? WHERE id = ?";
         try {
             PreparedStatement preparedStatement = conexao.obteConexao().prepareStatement(sql);
 
@@ -55,9 +56,13 @@ public class UsuarioDao {
     }
 
     private void preencherValoresPreperedStatment(PreparedStatement preparedStatement, Usuario usuario) throws SQLException {
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String senhaCripto = passwordEncoder.encode(usuario.getSenha());
+
         preparedStatement.setString(1, usuario.getNome());
         preparedStatement.setString(2, usuario.getUsuario());
-        preparedStatement.setString(3, usuario.getSenha());
+        preparedStatement.setString(3, senhaCripto);
         preparedStatement.setString(4, usuario.getPerfil().name());
         preparedStatement.setBoolean(5, usuario.isEstado());
 
@@ -105,14 +110,15 @@ public class UsuarioDao {
         return null;
     }
     public Usuario buscarUsuarioPeloUsuario(String usuario){
-        String sql = String.format("SELECT * FROM usuario WHERE id = %s", usuario);
-
-        try{
-            ResultSet result = conexao.obteConexao().prepareStatement(sql).executeQuery();
+        String sql = "SELECT * FROM usuario WHERE usuario = ?";
+        try {
+            PreparedStatement ps = conexao.obteConexao().prepareStatement(sql);
+            ps.setString(1, usuario);
+            ResultSet result = ps.executeQuery();
             if(result.next()){
                 return getUsuario(result);
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             System.out.println(String.format("Error6: %s", e.getMessage()));
         }
         return null;
